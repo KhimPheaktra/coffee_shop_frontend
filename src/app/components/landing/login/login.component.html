@@ -1,21 +1,42 @@
-
-
 <main class="form-login">
-  <div class="login-header">
-    <img src="/assets/images/Borcelle.png" alt="" class="logo">
+  <form (ngSubmit)="OnLogin()">
+    <div class="login-header">
+      <img src="/assets/images/Borcelle.png" alt="" class="logo" />
       <h2>Welcome back</h2>
-  </div>
-  
-  <div class="form-floating mb-3">
-    <input type="email" class="form-control" id="floatingInput"
-      placeholder="UserName" [(ngModel)]="username">
-    <label for="floatingInput">User Name</label>
-  </div>
-  <div class="form-floating">
-    <input type="password" class="form-control" id="floatingPassword"
-      placeholder="Password" [(ngModel)]="password">
-    <label for="floatingPassword">Password</label>
-    <button class="w-100 btn btn-lg btn-primary mt-5" type="submit"
-      (click)="OnLogin()">Sign in</button>
-  </div>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input
+        type="email"
+        class="form-control"
+        id="floatingInput"
+        placeholder="UserName"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+      <label for="floatingInput">User Name</label>
+    </div>
+
+    <div class="form-floating">
+      <input
+        type="password"
+        class="form-control"
+        id="floatingPassword"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        autocomplete="off"
+        required
+      />
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <button
+      class="w-100 btn btn-lg btn-primary mt-5"
+      type="submit"
+    >
+      Sign in
+    </button>
+  </form>
 </main>
