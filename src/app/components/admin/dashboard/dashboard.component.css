@@ -1,0 +1,17 @@
+
+.card-text{
+    font-size: 30px;
+    font-weight: bold;
+}
+.card-text i{
+    font-size: 35px;
+    padding: 10px;
+}
+.card-header{
+    font-size: 15px;
+    font-weight: bold;
+    align-items: center;
+    text-align: center;
+}
+
+

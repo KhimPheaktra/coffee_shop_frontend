@@ -1,0 +1,56 @@
+
+<div
+  class="nav-container">
+  <div
+    class="navbar">
+    <div class="logo-container">
+      <img src="/assets/images/Borcelle.png" alt="" class="logo">
+        <h1>BLUE ICE</h1>
+    </div>
+  
+    <p class="datetime">{{currentDate | date:'longDate'}} : {{currentDate |
+      date:'mediumTime'}}</p>
+    <ul
+      class=>
+      <div class="cart-icon d-block d-lg-none" (click)="toggleCart()" *ngIf="role === 'User' && isHomePage">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge bg-danger" *ngIf="orderCount$ | async as count">
+          {{ count }}
+        </span>
+      </div>
+
+      <!-- Mobile Cart -->
+      <div *ngIf="(cartVisible$ | async) && isMobile"
+        class="mobile-cart-wrapper">
+        <div class="mobile-cart-header">
+          <h3>MENU</h3>
+          <button class="close-btn" (click)="toggleCart()">×</button>
+        </div>
+        <app-cart></app-cart>
+      </div>
+    </ul>
+
+    <div class="dropdown">
+      <a
+        data-bs-toggle="dropdown" aria-expanded="false">
+        <div class=" d-flex align-items-center">
+          <p class="mb-0 ms-1 p-2">{{ loggedInUsername }}</p>
+          <img
+          [src]="userProfile || 'assets/images/user-avatar.png'"
+          alt="User Profile"
+          width="52"
+          height="52"
+          class="rounded-circle">
+        </div>
+      </a>
+      <ul class="dropdown-menu">
+        <!-- <li><a class="dropdown-item" href="#">Profile</a></li> -->
+        <li><a class="dropdown-item" (click)="signout()">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="body">
+  <router-outlet></router-outlet>
+</div>

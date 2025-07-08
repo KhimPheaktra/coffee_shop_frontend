@@ -1,0 +1,142 @@
+<!-- filter date -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <div class="col-md-3">
+        <label class="form-label">Start Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="startAt"
+          (change)="filterSalesByDate()"
+          [max]="endAt"
+        />
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">End Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="endAt"
+          (change)="filterSalesByDate()"
+          [min]="startAt"
+        />
+      </div>
+      <div class="col-md-3 mt-4">
+        <button class="btn btn-warning" (click)="clearFilters()">Reset Filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Normal Table -->
+<div class="table-container">
+    <table class="table table-hover table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>ID</th>
+          <th>Start At</th>
+          <th>Start By</th>
+          <th>Amount Input</th>
+          <th>End By</th>
+          <th>End At</th>
+          <th>Total Sale</th>
+          <th>Total Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let group of saleList  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+            <tr *ngFor="let report of group.items; let i = index">
+                <!-- Display date only in the first row of each group -->
+                <td *ngIf="i === 0" [attr.rowspan]="group.items.length">{{ group.date }}</td>
+            <td>{{ report.userWInfoId }}</td>
+            <td>{{ report.startAt | date:'h:mm a'}}</td>
+            <td>{{ report.startBy }}</td>
+            <td>{{ report.amountInput }}</td>
+            <td>{{ report.endBy }}</td>
+            <td>{{ report.endAt | date: 'h:mm a' }}</td>
+            <td>{{ report.totalSale | number }}</td>
+            <td>{{ report.totalAmount | currency }}</td>
+            <td *ngIf="i === 0" [attr.rowspan]="group.items.length">
+              <button class="btn btn-primary btn-sm" (click)="printTable(group.date)">Print</button>
+              <button class="btn btn-success btn-sm ms-2" (click)="downloadPDF(group.date)">Download</button>
+            </td>
+          </tr>
+          <!-- Daily Total Row -->
+          <tr class="table-warning">
+            <td colspan="7" class="text-end fw-bold"><strong>Daily Total for {{ group.startAt | date: 'fullDate' }}</strong></td>
+            <td><strong>{{ group.totalSale | number }}</strong></td>
+            <td><strong>{{ group.totalAmount | currency }}</strong></td>
+            <td></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div *ngIf="noDataFound" class="text-center text-danger mt-3">
+      <strong>No Data Found</strong>
+    </div>
+      <!-- Pagination -->
+  <div class="mt-8 py-5 d-flex justify-content-center items-center">
+    <pagination-controls
+      (pageChange)="currentPage = $event; pageitem($event)"></pagination-controls>
+  </div>  
+
+  </div>
+  
+  <!-- Report View -->
+  <div (click)="printTable()" id="printSection" class="report-container">
+    <div class="report-header">
+      <h2>T System</h2>
+      <p>Sales Report</p>
+      <p>Date: {{ currentDate | date: 'fullDate' }} | Time: {{ currentTime }}</p>
+      <hr />
+    </div>
+  
+    <table class="table report-table">
+      <thead class="table-light">
+        <tr>
+          <th>Date</th>
+          <th>ID</th>
+          <th>Start At</th>
+          <th>Start By</th>
+          <th>Amount Input</th>
+          <th>End By</th>
+          <th>End At</th>
+          <th>Total Sale</th>
+          <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let group of saleList">
+            <tr *ngFor="let report of group.items; let i = index">
+                <!-- Display date only in the first row of each group -->
+                <td *ngIf="i === 0" [attr.rowspan]="group.items.length">{{ group.date }}</td>
+            <td>{{ report.userWInfoId }}</td>
+            <td>{{ report.startAt | date: 'h:mm a' }}</td>
+            <td>{{ report.startBy }}</td>
+            <td>{{ report.amountInput }}</td>
+            <td>{{ report.endBy }}</td>
+            <td>{{ report.endAt | date: 'h:mm a' }}</td>
+            <td>{{ report.totalSale | number }}</td>
+            <td>{{ report.totalAmount | currency }}</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="7" class="text-end fw-bold"><strong><strong>Overall Total:</strong> {{ group.startAt | date: 'fullDate' }}</strong></td>
+            <td><strong>{{ group.totalSale | number }}</strong></td>
+            <td><strong>{{ group.totalAmount | currency }}</strong></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  
+    <div class="report-footer">
+      <p>Generated by: {{ userName }}</p>
+      <p>Signature: ___________________</p>
+    </div>
+  </div>
+  

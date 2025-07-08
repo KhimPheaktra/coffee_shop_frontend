@@ -1,0 +1,56 @@
+.sale-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Space between the two sections */
+  max-width: 50%;
+  height: 470px;
+  margin: 0 auto;
+}
+
+.sale-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1; /* Make both columns equal width */
+}
+
+.sale-summary label {
+  font-weight: bold;
+}
+
+.sale-summary input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.btn-clock-out {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.clock-out {
+  width: 6rem;
+  height: 3rem;
+  background: blue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.clock-out:hover {
+  background: darkblue;
+}
+
+/* Responsive - Stack columns for small screens */
+@media (max-width: 600px) {
+  .sale-summary {
+      flex-direction: column;
+      align-items: center;
+  }
+}

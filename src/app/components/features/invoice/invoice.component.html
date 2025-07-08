@@ -1,0 +1,41 @@
+<div class="back-btn">
+  <button class="back" (click)="ToHomePage()">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+</div>
+<div class="list-item-text">
+  <h1>Sales Invoices</h1>
+</div>
+<div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="cursor: pointer;" (click)="sortById()">
+            Invoice ID
+            <span *ngIf="sortDirection === 'desc'"><i class="fa-solid fa-arrow-up"></i></span>
+            <span *ngIf="sortDirection === 'asc'"><i class="fa-solid fa-arrow-down"></i></span>
+          </th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sale of invoiceList | paginate: { itemsPerPage: 50, currentPage: page }">
+          <td>{{ sale.invoiceId }}</td>
+          <td>{{ sale.sale_date | date: 'medium'}}</td>
+          <td>
+            <button class="btn btn-primary" (click)="printInvoice(sale.invoiceId)">Print</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+<!-- Pagination -->
+<div class="mt-8 py-5 d-flex justify-content-center items-center">
+  <pagination-controls
+    (pageChange)="page = $event; pageitem($event)"></pagination-controls>
+</div>
+
+  </div>
+  
+  

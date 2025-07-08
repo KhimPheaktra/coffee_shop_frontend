@@ -1,1 +1,154 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'ngx-toastr/toastr';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", serif;
+  text-decoration: none;
+}
+body{
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+.no-item {
+  text-align: center;
+  font-size: 40px;
+  color: #ff0000;
+  margin-top: 20px;
+}
+.list-item-text{
+    text-align: center;
+    background: rgb(37, 112, 243);
+    color: #fff;
+}
+
+
+.back-btn {
+  padding: 5px;
+  position: absolute;
+  text-align: center;
+  align-items: center;
+}
+.back {
+  background: none;
+  border: none;
+  font-size: 24px;
+  width: 1rem;
+  cursor: pointer;
+}
+.back-btn .back i{
+  font-size: 18px;
+  padding: 5px;
+  
+}
+.table-container {
+  text-align: center;
+  width: 100%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  /* border: 1px solid #ddd;  */
+}
+
+/* Optional: Make sure table has a fixed width to enable horizontal scroll */
+.table {
+  width: 100%; 
+  border-collapse: collapse;
+}
+
+
+.table th, .table td {
+  padding: 8px;
+  /* border: 1px solid #ddd; */
+  white-space: nowrap; 
+}
+
+ /* Pagination Styles  */
+.ngx-pagination {
+  padding: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.ngx-pagination li {
+  margin: 0 !important;
+}
+
+.ngx-pagination a,
+.ngx-pagination button,
+.ngx-pagination .current {
+  padding: 8px 16px !important;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  background: #f8f9fa;
+  transition: 0.3s;
+  text-decoration: none !important;
+  color: #333;
+}
+
+.ngx-pagination .current {
+  background: #007bff !important;
+  border-color: #007bff !important;
+  color: white !important;
+}
+
+.ngx-pagination a:hover,
+.ngx-pagination button:hover {
+  background: #e9ecef;
+  text-decoration: none !important;
+}
+
+.ngx-pagination .disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+@media (max-width: 760px),
+(max-width: 600px) {
+  .table {
+    display: block;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-width: 100%;
+    white-space: nowrap;
+  }
+  .ngx-pagination a,
+  .ngx-pagination button,
+  .ngx-pagination .current {
+    padding: 6px 12px !important;
+    font-size: 14px;
+  }
+}
+/* Mobile devices */
+@media screen and (max-width: 480px) {
+  .ngx-pagination {
+    gap: 3px;
+  }
+
+  .ngx-pagination a,
+  .ngx-pagination button,
+  .ngx-pagination .current {
+    padding: 5px 10px !important;
+    font-size: 13px;
+  }
+
+}
+
+/* Very small devices */
+@media screen and (max-width: 320px) {
+  .ngx-pagination {
+    gap: 2px;
+  }
+
+  .ngx-pagination a,
+  .ngx-pagination button,
+  .ngx-pagination .current {
+    padding: 4px 8px !important;
+    font-size: 12px;
+  }
+}

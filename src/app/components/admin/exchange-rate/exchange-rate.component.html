@@ -1,0 +1,139 @@
+
+<div class="list-item-text">
+  <h1>Exchange Rate</h1>
+</div>
+<!-- Btn add -->
+<button type="button" class="btn btn-primary mb-3 ms-3" data-bs-toggle="modal"
+  data-bs-target="#exampleModal" (click)="AddNew()">
+  <i class="fa-solid fa-plus"></i> AddNew
+</button>
+
+<!-- Search -->
+<app-search style="display: flex;justify-content: flex-end;padding: 10px;" (searchChanged)="filterExchange($event)"></app-search>
+
+<!-- Table -->
+<div class="table-container">
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col" (click)="sortById()" style="cursor: pointer;">
+        ECID
+        <span *ngIf="sortDirection === 'desc'"><i class="fa-solid fa-arrow-up"></i></span>
+        <span *ngIf="sortDirection === 'asc'"><i class="fa-solid fa-arrow-down"></i></span>
+      </th>
+      <th scope="col">CurrencyCode</th>
+      <th scope="col">NAT Rate</th>
+      <th scope="col"></th>
+      <th scope="col">Rate</th>
+      <th scope="col">EffectiveDate</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let exchange of filteredExchange | paginate: {itemsPerPage: itemsPerPage, currentPage: currentPage }" >
+      <td>{{ exchange.exchangrateId }}</td>
+      <td>{{ exchange.currencyCode }}</td>
+      <td>{{ exchange.natRate | currency}}</td>
+      <td><i class="fa-solid fa-equals" style="font-size: 1.5rem;"></i></td>
+      <td>{{ exchange.rate}}</td>
+      <td>{{ exchange.effectiveDate | date :'medium'}}</td>
+      <td>
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="ViewExchangeRate(exchange.exchangrateId,'E')">
+          <i class="fa-regular fa-pen-to-square"></i>
+          Edit
+        </button>
+        <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="ViewExchangeRate(exchange.exchangrateId,'D')">
+          <i class="fa-solid fa-trash-can"></i>
+          Delete
+        </button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<!-- If no exchange when search -->
+<div *ngIf="searchText?.trim && filteredExchange.length === 0" class="no-item">
+  <h5>No data found </h5>
+</div>
+
+<!-- Pagination -->
+<div class="mt-8 py-5 d-flex justify-content-center items-center">
+  <pagination-controls
+    (pageChange)="currentPage = $event; pageitem($event)"></pagination-controls>
+</div>
+
+<!-- CRUD Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add exchange</h1>
+        <button type="button" id="close" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-floating mb-3" hidden>
+          <input type="text" class="form-control" [(ngModel)]="exchangrateId"
+            id="hiddenInput" placeholder="ECID">
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" [(ngModel)]="currencyCode"
+            id="currencyInput" placeholder="CurrencyCode">
+          <label for="currencyInput">CurrencyCode</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" [(ngModel)]="natRate"
+            id="natRate" placeholder="NAT Rate">
+          <label for="natRate">NAT Rate</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" [(ngModel)]="rate"
+            id="rateInput" placeholder="Rate">
+          <label for="rateInput">Rate</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="datetime" disabled class="form-control" [(ngModel)]="effectiveDate"
+            id="effectiveDateInput" placeholder="EffectiveDate">
+          <label for="effectiveDateInput">EffectiveDate</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="btnSave"
+          (click)="SaveExchangeRate()">Save</button>
+        <button type="button" class="btn btn-warning" *ngIf="btnEdit"
+          (click)="EditExchangeRate()">Edit</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+          data-bs-target="#deleteModal" *ngIf="btnDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete pop up -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Information</h1>
+        <button type="button" id="close-delete-popup" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{this.currencyCode}}</strong>
+        Exchange ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger"
+          (click)="DeleteExchangeRate(exchangrateId)">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

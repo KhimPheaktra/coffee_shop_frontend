@@ -1,0 +1,290 @@
+:host {
+  display: block;
+  padding: 10px;
+}
+
+.card-container {
+  position: relative;
+  display: flex;
+  flex-basis: 14rem;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 63.50%;
+  height: 400px; /* Default height, will adjust for Nest Hub */
+  overflow: auto;
+  gap: 10px;
+  float: left;
+  padding: 10px;
+}
+
+.card {
+  position: relative;
+  left: 2rem;
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  max-width: 7rem;
+  height: 14rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding-bottom: 80px; /* Space for btn-info */
+}
+
+.add-to-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.add-to-card:hover {
+  transform: scale(1.05);
+}
+
+.card-img-top {
+  height: 8rem;
+  align-items: center;
+  object-fit: scale-down;
+  margin-bottom: 10px;
+  aspect-ratio: 16/9;
+}
+
+.card-body {
+  padding: 10px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.card-title h5 {
+  margin: 8px 0;
+}
+
+.btn-primary {
+  margin-top: 8px;
+}
+
+/* .card-container::after {
+  content: "";
+  display: table;
+  clear: both;
+} */
+
+/* .btn-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  gap: 1rem;
+  width: 50%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.btn-info button {
+  width: 5rem;
+  height: 5rem;
+  font-size: 2rem;
+  background: rgb(27, 128, 211);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+} */
+
+.categories-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.categories-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.categories-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+app-cart{
+  /* z-index: 1000; */
+  position: relative;
+  height: 100%;
+}
+/* Tablet screens (768px–1024px), including Nest Hub */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .card-container {
+    width: 47%; 
+    height: 650px;
+    padding: 5px;
+  }
+
+  .card {
+    max-width: 8rem;
+    height: 15rem;
+    left: 1rem;
+  }
+  .card-body{
+    font-size: 0.9rem;
+    padding: 0;
+  }
+  .card-img-top {
+    height: 6rem;
+    object-fit: contain;
+  }
+
+  .pagination {
+    padding-bottom: 100px; /* More space for pagination on Nest Hub, accounting for btn-info */
+  }
+
+  /* .btn-info {
+    padding: 15px;
+  }
+
+  .btn-info button {
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.8rem;
+  } */
+  app-cart{
+    position: relative;
+    height: auto;
+  }
+}
+
+/* Mobile screens (below 767px) */
+@media (max-width: 767px) {
+  .card-container {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    justify-content: center;
+  }
+
+  .card {
+    flex-basis: calc(50% - 10px);
+    max-width: 8rem;
+    height: 12rem;
+    left: 0;
+    margin: 5px;
+  }
+
+  .card-img-top {
+    height: 6rem;
+  }
+
+  .pagination {
+    padding-bottom: 80px;
+  }
+
+  .btn-info {
+    justify-content: center;
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn-info button {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    margin: 5px;
+  }
+
+  app-cart {
+    display: none;
+  }
+}
+
+/* Very small screens (below 486px) */
+@media (max-width: 486px) {
+  .card-container {
+    padding: 5px;
+    width: 100%;
+    height: auto;
+  }
+
+  .card {
+    flex-basis: calc(50% - 10px);
+    max-width: 7rem;
+    height: 10rem;
+    left: 0;
+    margin: 5px;
+  }
+
+  .card-img-top {
+    height: 4rem;
+  }
+
+  .card-body {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .card-title h5 {
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+
+  .btn-primary {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    margin-top: 4px;
+  }
+
+  .pagination {
+    padding-bottom: 80px;
+  }
+  .btn-info {
+    position: static;
+    padding: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-info button {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    margin: 5px;
+  }
+
+  app-cart {
+    display: none;
+  }
+}
+
+/* Ensure body and content layout supports height */
+/* body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.card-container {
+  flex: 1;
+} */

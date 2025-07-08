@@ -1,0 +1,43 @@
+<div class="back-btn" *ngIf="role === 'User'">
+    <button class="back" (click)="ToHomePage()">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+  </div>
+<div class="list-item-text">
+    <h1>Sale</h1>
+  </div>
+  <div class="sale-summary">
+    <!-- First column -->
+    <div class="sale-column">
+         <label>Cash In User</label>
+        <input type="text" [value]="startBy" readonly />
+
+        <label>Cash In Date</label>
+        <input type="text" [value]="startDate | date: 'medium'" readonly />
+
+        <label>Cash Out User</label>
+        <input type="text" [value]="userName" readonly>
+        
+        <label>Cash Out Date</label>
+        <input type="text" [value]="currentDate | date: 'medium'" readonly>
+       
+    </div>
+
+    <!-- Second column -->
+    <div class="sale-column">
+        <label>Total Amount Input:</label>
+        <input type="text" [value]="amountInput | currency" readonly />
+
+        <label>Total Sales:</label>
+        <input type="text" [value]="todaySalesCount" readonly>
+
+        <label>Total Amount:</label>
+        <input type="text" [value]="totalAmount | currency:'USD':'symbol'" readonly>
+        
+        <div class="btn-clock-out">
+          <button class="clock-out" (click)="clockOut()">Clock Out</button>
+      </div>
+    </div>
+</div>
+
+

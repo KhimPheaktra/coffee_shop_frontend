@@ -1,0 +1,76 @@
+/* Sale Summary Container */
+.sale-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between the two sections */
+    max-width: 50%;
+    height: 450px;
+    margin: 20px auto;
+  }
+  
+  /* Column Styles */
+  .sale-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1; /* Make both columns equal width */
+  }
+  
+  /* Labels */
+  .sale-summary label {
+    font-weight: bold;
+  }
+  
+  /* Inputs */
+  .sale-summary input,select{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  /* Disable text inputs (for readonly fields) */
+  .sale-summary input[readonly] {
+    background-color: #f8f8f8;
+    /* color: #555; */
+  }
+  
+  /* Discount Checkbox and Input Styling */
+  /* .discount-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  } */
+  
+  /* Checkout Button */
+  .btn-clock-out {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .clock-out {
+    width: 6rem;
+    height: 3rem;
+    background: blue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .clock-out:hover {
+    background: darkblue;
+  }
+  
+  /* Responsive - Stack columns for small screens */
+  @media (max-width: 600px) {
+    .sale-summary {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

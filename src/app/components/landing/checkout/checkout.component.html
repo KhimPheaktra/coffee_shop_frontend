@@ -1,0 +1,78 @@
+<div class="back-btn">
+  <button class="back" (click)="ToHomePage()">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+</div>
+
+<div class="list-item-text">
+  <h1>គិតលុយ</h1>
+</div>
+
+<!-- Date and Time -->
+<!-- <p>Date: {{currentDate | date:'longDate'}}</p>
+<p>Time: {{currentDate | date:'mediumTime'}}</p> -->
+
+<!-- Sale Summary Section -->
+<div class="sale-summary">
+  <div class="sale-column">
+    <div>
+      <label>Sale Date</label>
+      <input type="text" [value]="currentDate | date: 'medium'" readonly>
+      
+      <label for="discountToggle">Discount</label>
+      <input type="checkbox" id="discountToggle" [(ngModel)]="isDiscountApplied" (change)="toggleDiscount()">
+      <div class="discount-container">
+        <input type="text" class="form-control" id="discount" [(ngModel)]="discount" (ngModelChange)="applyDiscountToCart()" [disabled]="!isDiscountEnabled" placeholder="(%)">
+      </div>
+    </div>
+    <label>Sale By</label>
+    <input type="text" [value]="userName" readonly>
+    <div>
+      <label>Total ($)</label>
+      <input type="text" [value]="cartService.getTotalPrice() | currency" readonly>
+    </div>
+    <div>
+      <label>Total (Riel)</label>
+      <input type="text" [value]="cartService.getTotalPrice() * exchangeRate" readonly>
+    </div>
+  </div>
+
+  <!-- Right Column (Riel) -->
+  <div class="sale-column">
+    <div>
+      <label>Amount Take</label>
+      <input type="number" [(ngModel)]="amountTake" (input)="calculateRemaining()" placeholder="Amount Take">
+    </div>
+    <div>
+      <label>Amount Riel</label>
+      <input type="number" [(ngModel)]="amountRiel" (input)="calculateRemaining()" placeholder="Amount Riel">
+    </div>
+
+    <select class="form-select" [(ngModel)]="orderType" aria-label="Default select example" required>
+      <option value="" disabled selected>Open this select Order Type</option>
+      <option value="TakeAway">Take Away</option>
+      <option value="Delivery">Delivery</option>
+  </select>
+  
+
+    <div class="btn-clock-out">
+      <button type="button" class="clock-out" (click)="addSale()">Check Out</button>
+    </div>
+
+    <!-- Remaining Amount -->
+    <!-- <div>
+      <label>Remaining</label>
+      <input type="text" [value]="remainingAmount | number:'1.2-2' | currency" readonly>
+    </div> -->
+
+    <!-- Remaining Amount Riel -->
+    <!-- <div>
+      <label>Remaining Riel</label>
+      <input type="text" [value]="remainingAmountRiel" readonly>
+    </div> -->
+
+  </div>
+
+</div>
+
+

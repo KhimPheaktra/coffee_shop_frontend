@@ -1,0 +1,63 @@
+.thank-you-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 530px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    flex-direction: row;
+}
+
+.thank-you-container img {
+    width: 200px; /* Adjust image size */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-right: 30px;
+}
+
+.thank-you-container .thank-you-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.change-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #27ae60; /* Green color for the money amounts */
+}
+
+.change-display p {
+    margin: 5px 0;
+}
+
+.thank-you-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .thank-you-container {
+        flex-direction: column; /* Stack the image and content for smaller screens */
+        align-items: center;
+    }
+
+    .thank-you-container img {
+        width: 150px; /* Smaller image on mobile */
+    }
+
+    .thank-you-container h1 {
+        font-size: 2rem;
+    }
+
+    .change-display p {
+        font-size: 1.2rem;
+    }
+}

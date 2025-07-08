@@ -1,0 +1,263 @@
+:host {
+  display: block;
+  padding: 10px; 
+}
+
+.order-container {
+  position: relative;
+  background-color: rgb(27, 128, 211);
+  padding: 5px;
+  width: 36%;
+  max-height: 400px;
+  float: right;
+  overflow-y: auto; 
+  overflow-x: auto; 
+}
+
+.list-group {
+  background-color: rgb(27, 128, 211);
+  overflow: hidden;
+  position: relative;
+}
+
+.table-container {
+  display: block;
+  overflow: auto;
+}
+.table{
+  overflow-y: scroll;
+  table-layout: auto;
+  overflow-x: auto;
+}
+
+tr {
+  background-color: rgb(27, 128, 211);
+}
+
+/* 
+@media (max-width: 1024px)  {
+  .order-container {
+    width: 50%;
+    max-height: 650px;
+  }
+  
+  th, td {
+    width: 200px;
+    max-width: 200px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .minus, .plus {
+    padding: 1px 4px !important;
+    font-size: 0.6rem !important;
+  }
+
+  input[type="text"] {
+    width: 25px !important;
+    height: 18px !important;
+    font-size: 0.7rem !important;
+    padding: 1px !important;
+  }
+  td img{
+    width: 30px;
+    height: 30px;
+  }
+  .btn i{
+    font-size: 0.6rem;
+  }
+  .order-btn {
+    width: 55px;
+    font-size:12px;
+  }
+} */
+@media (min-width: 768px) and (max-width: 991px) {
+  .order-container {
+    width: 52%;
+    max-height: 650px;
+  }
+  .table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .table {
+    display: block;
+    width: 100%;
+    font-size: 0.6rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  th, td {
+    width: 220px;
+    max-width: 220px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .minus, .plus {
+    padding: 1px 4px !important;
+    font-size: 0.6rem !important;
+  }
+
+  input[type="text"] {
+    width: 25px !important;
+    height: 18px !important;
+    font-size: 0.7rem !important;
+    padding: 1px !important;
+  }
+  /* td img{
+    width: 30px;
+    height: 30px;
+  } */
+  .btn i{
+    font-size: 0.6rem;
+    padding: 0;
+  }
+  .order-btn {
+    width: 55px;
+    font-size:12px;
+  }
+}
+
+@media (max-width: 760px) {
+  .order-container {
+    width: 100%;
+    border-left: none;
+    border-top: 2px solid rgb(27, 128, 211);
+  }
+  
+  .table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .table {
+    width: 90%; 
+    font-size: 0.9rem;
+    table-layout: auto;
+  }
+
+  .btn-order {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+@media (max-width: 450px) {
+  /* Main container adjustments */
+  .order-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Menu header adjustments */
+  .menu-header {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  /* Table container */
+  .table-container {
+    width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+  /* Table styling for compact display */
+  .table {
+    width: 100%;
+    font-size: 0.6rem;
+    table-layout: fixed;
+    margin: 0;
+    border-collapse: collapse;
+  }
+
+  /* Header cells */
+  th {
+    padding: 2px 1px;
+    font-size: 0.6rem;
+    width: auto;
+  }
+
+  /* Data cells - adjust widths */
+  td:nth-child(1) { /* Name column */
+    width: 40%;
+    max-width: 40%;
+  }
+  
+  td:nth-child(2) { /* Price column */
+    width: 15%;
+    max-width: 15%;
+  }
+  
+  td:nth-child(3) { /* Qty column */
+    width: 20%;
+    max-width: 20%;
+  }
+  
+  td:nth-child(4) { /* Total column */
+    width: 15%;
+    max-width: 15%;
+  }
+  
+  td:nth-child(5) { /* Action column */
+    width: 10%;
+    max-width: 10%;
+  }
+
+  /* Quantity controls */
+  .minus, .plus {
+    padding: 0px 3px !important;
+    font-size: 0.6rem !important;
+    min-width: 18px;
+  }
+
+  /* Quantity input */
+  input[type="text"] {
+    width: 20px !important;
+    height: 18px !important;
+    font-size: 0.6rem !important;
+    padding: 0px !important;
+    text-align: center;
+  }
+  
+  /* Images in table */
+  td img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Button icons */
+  .btn i {
+    font-size: 0.6rem;
+  }
+  
+  /* Order button */
+  .order-btn {
+    width: 55px;
+    font-size: 12px;
+    padding: 3px;
+  }
+  
+  /* Total amount area */
+  .total-amount-container {
+    font-size: 0.7rem;
+    padding: 5px;
+  }
+  
+  /* Delete button (red trash icon) */
+  .delete-btn {
+    padding: 2px !important;
+    min-width: auto !important;
+  }
+}

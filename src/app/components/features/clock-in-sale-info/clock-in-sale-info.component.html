@@ -1,0 +1,65 @@
+
+
+<div class="btn-info">
+    <button class="go-to-home" *ngIf="!isHomePage" (click)="ToHomePage()" ><i class="fa-solid fa-house-user"></i></button>
+    <button class="check-amount" (click)="checkAmountInfo()" ><i class="fa-solid fa-dollar-sign"></i></button>
+    <button class="check-exchange" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-money-bill-transfer"></i></button>
+    <button class="input-amount-for-sale" type="button" data-bs-toggle="modal" data-bs-target="#inputamount"><i class="fa-solid fa-money-bill-wave"></i></button>
+    <button class="check-invoice" (click)="checkInvoice()" ><i class="fa-solid fa-receipt"></i></button>
+  </div>
+
+
+  
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Exchange</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tbody style="display: flex; justify-content: center;">
+              <tr *ngFor="let exchange of exchangeRate" style="font-size: 2rem;font-weight: bold;">
+                <td scope="1">{{exchange.natRate | currency}}</td>
+                <td scope="2"><i class="fa-solid fa-equals" style="font-size: 1.5rem;"></i></td>
+                <td scope="2">{{exchange.rate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Input Amount Modal -->
+  <div class="modal fade" id="inputamount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="inputamountLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="inputamountLabel">Input Amount</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-dollar-sign"></i></span>
+            <input 
+            class="form-control" 
+            type="text" 
+            [(ngModel)]="amountInput"  
+            placeholder="Enter Amount" 
+            aria-describedby="basic-addon1"
+            [disabled]="isInputDisabled">
+          </div>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="startWork()" *ngIf="!isSaveDisabled">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>

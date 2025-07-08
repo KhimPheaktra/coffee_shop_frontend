@@ -1,0 +1,63 @@
+
+
+<!-- <div class="d-flex align-items-center justify-content-center my-3">
+  <a routerLink="/home" class="btn btn-outline-primary"
+  [class.active]="!selectedCategory">All</a>
+  <button
+  *ngFor="let item of categoryList"
+  class=" btn btn-outline-primary mx-2" 
+  [ngClass]="{'active': item.category_name === selectedCategory} "
+  (click)="filterCategories(item.category_name)">
+  {{ item.category_name }}
+</button>
+</div> -->
+
+<!-- [class.active]="item.producttype === selectedProductType -->
+
+
+<!-- Select catgory -->
+<div class="categories-wrapper">
+  <div class="categories-container">
+    <a routerLink="/home" class="btn btn-outline-primary"
+    [ngClass]="{'active': !selectedCategory}"
+    (click)="filterCategories(null)">All</a>
+    <button
+      *ngFor="let item of categoryList"
+      class="btn btn-outline-primary mx-2"
+      [ngClass]="{'active': item.category_name === selectedCategory}"
+      (click)="filterCategories(item.category_name)">
+      {{ item.category_name }}
+    </button>
+  </div>
+</div>
+
+<!-- Search -->
+<app-search style="display: flex;justify-content: flex-start;padding: 10px;position: relative;left: 2rem;" (searchChanged)="filterProducts($event)"></app-search>
+
+
+<div class="card-container">
+  <div class="card" *ngFor="let item of filteredProducts | paginate: { itemsPerPage: 10, currentPage: page }">
+    <div (click)="addToCart(item)" class="add-to-card" role="button" aria-label="Add to Cart">
+    <img [src]="item.product_image" class="card-img-top" alt="Product Image">
+    <div class="card-body">
+      <p>{{ item.product_name }}</p>
+      <p>{{ item.price | currency }}</p>
+    </div>
+    </div>
+  </div>
+   <!-- If no product when search -->
+
+    <div *ngIf="searchText?.trim && filteredProducts.length === 0" class="no-item" style="margin: 0 auto;">
+    <h5>No data found </h5>
+  </div>
+
+  <!-- Pagination -->
+<div class="pagination">
+<pagination-controls
+  (pageChange)="page = $event; pageitem($event)"></pagination-controls>
+</div>
+</div>
+
+
+<app-cart>
+ 

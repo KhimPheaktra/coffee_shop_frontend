@@ -1,0 +1,128 @@
+
+<div class="list-item-text">
+  <h1>Categories List</h1>
+</div>
+<!-- Btn add -->
+<button type="button" class="btn btn-primary mb-3 ms-3" data-bs-toggle="modal"
+  data-bs-target="#exampleModal" (click)="AddNew()">
+  <i class="fa-solid fa-plus"></i> AddNew
+</button>
+
+<!-- Search -->
+<app-search style="display: flex;justify-content: flex-end;padding: 10px;" (searchChanged)="filterCategory($event)"></app-search>
+
+<!-- Table -->
+<div class="table-container">
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col" (click)="sortById()" style="cursor: pointer;">
+        CID
+        <span *ngIf="sortDirection === 'desc'"><i class="fa-solid fa-arrow-up"></i></span>
+        <span *ngIf="sortDirection === 'asc'"><i class="fa-solid fa-arrow-down"></i></span>
+      </th>
+      <th scope="col">Category Name</th>
+      <th scope="col">Category Description</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let item of filteredCategory | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage}">
+      <!-- <tr *ngFor="let item of categoryList"> -->
+      <td>{{ item.category_id }}</td>
+      <td>{{ item.category_name }}</td>
+      <td>{{ item.category_description }}</td>
+      <td>
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="ViewCategory(item.category_id,'E')">
+          <i class="fa-regular fa-pen-to-square"></i>
+          Edit
+        </button>
+
+        <button type="button" class="btn btn-danger ms-2" data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="ViewCategory(item.category_id,'D')">
+          <i class="fa-solid fa-trash-can"></i>
+          Delete
+        </button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<!-- If no category when search -->
+<div *ngIf="searchText?.trim && filteredCategory.length === 0" class="no-item">
+  <h5>No data found </h5>
+</div>
+<!-- Pagination -->
+<div class="mt-8 py-5 d-flex justify-content-center items-center">
+  <pagination-controls
+    (pageChange)="currentPage = $event; pageitem($event)"></pagination-controls>
+</div>
+
+<!-- CRUD Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Product
+          Type</h1>
+        <button type="button" id="close" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-floating mb-3" hidden>
+          <input type="text" class="form-control" [(ngModel)]="category_id"
+            id="hiddenInput" placeholder="CID">
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" [(ngModel)]="category_name"
+            id="nameInput" placeholder="Category Name">
+          <label for="nameInput">Category Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control"
+            [(ngModel)]="category_description" id="descriptionInput"
+            placeholder="Category Description">
+          <label for="descriptionInput">Category Description</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" *ngIf="btnSave"
+          (click)="SaveCategory()">Save</button>
+        <button type="button" class="btn btn-warning" *ngIf="btnEdit"
+          (click)="editCategory()">Edit</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+          data-bs-target="#deleteModal" *ngIf="btnDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete pop up information -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Information</h1>
+        <button type="button" id="close-delete-popup" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{this.category_name}}</strong>
+        ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger"
+          (click)="deleteCategory(category_id)">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

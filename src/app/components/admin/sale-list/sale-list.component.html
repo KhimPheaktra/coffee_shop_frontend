@@ -1,0 +1,124 @@
+
+
+<div class="list-item-text">
+  <h1>Sale List</h1>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <div class="col-md-3">
+        <label class="form-label">Start Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="startDate"
+          (change)="filterSalesByDate()"
+          [max]="endDate">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">End Date:</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="endDate"
+          (change)="filterSalesByDate()"
+          [min]="startDate">
+      </div>
+      <div class="col-md-3 mt-4">
+        <div class="text-muted" *ngIf="startDate">
+          Filtered Total: {{ getFilteredTotal() | currency }}
+        </div>
+        <div
+          [ngClass]="{'text-success': percentageChange > 0, 'text-danger': percentageChange < 0, 'text-muted': percentageChange === 0 }">
+          Percentage Change: {{ percentageChange | number:'1.2-2' }}%
+        </div>
+      </div>
+      <div class="col-md-3 mt-4">
+        <button class="btn btn-warning" (click)="clearFilters()">
+          Reset Filters
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="sale-summary row-container" *ngIf="role === 'User'">
+  <label>Total Amount Input:</label>
+  <input type="text" [value]="getAmountInput() | currency" readonly />
+  
+  <label>Total Sales:</label>
+  <input type="text" [value]="todaySalesCount" readonly>
+  
+  <label>Total Amount:</label>
+  <input type="text" [value]="totalAmount | currency:'USD':'symbol'" readonly>
+  
+</div>
+
+<div class="btn-clock-out" *ngIf="role === 'User'">
+  <button class="clock-out" (click)="clockOut()">Clock Out</button>
+
+</div> -->
+
+<!-- <h5 *ngIf="role === 'User'">Total Amount: {{ getFilteredTotal() | currency}}</h5> -->
+
+<div class="table-container">
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col" (click)="sortById()" style="cursor: pointer">
+        SID
+        <span *ngIf="sortDirection === 'desc'"><i class="fa-solid fa-arrow-up"></i></span>
+        <span *ngIf="sortDirection === 'asc'"><i class="fa-solid fa-arrow-down"></i></span>
+      </th>
+      <th scope="col">Sale By</th>
+      <th scope="col">Sale Date</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Status</th>
+      <th scope="col">Discount</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let group of groupedSales | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+      <tr *ngFor="let item of group.items; let i = index">
+        <!-- Set rowspan only for the first item in the group -->
+        <td *ngIf="i === 0"
+          [attr.rowspan]="group.items.length">{{group.sale_id}}</td>
+          <td *ngIf="i === 0"
+          [attr.rowspan]="group.items.length">{{group.userId}}</td>
+        <td *ngIf="i === 0"
+          [attr.rowspan]="group.items.length">{{group.sale_date |
+          date:'medium'}}</td>
+        <td>{{item.product_name}}</td>
+        <td>{{item.price | currency}}</td>
+        <td>{{item.qty}}</td>
+        <td>
+          <span class="btn btn-warning btn-sm" *ngIf="item.status === 1">Active</span>
+          <span class="btn btn-success btn-sm" *ngIf="item.status === 0">Completed</span>
+        </td>
+        <td>{{item.discount}}</td>
+        <td>{{item.total_price | currency }}</td>
+      </tr>
+      <tr class="table">
+        <td colspan="8" class="text-end fw-bold">Sale Total:</td>
+        <td class="fw-bold"> {{ group.groupTotal | currency }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+
+<div *ngIf="noDataFound" class="alert alert-warning text-center">
+  No data found for the selected date range.
+</div>
+
+<!-- Pagination -->
+<div class="mt-8 py-5 d-flex justify-content-center items-center">
+  <pagination-controls
+    (pageChange)="currentPage = $event; pageitem($event)"></pagination-controls>
+</div>
+
+</div>
+

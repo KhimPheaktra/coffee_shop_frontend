@@ -1,0 +1,141 @@
+
+<div class="list-item-text">
+    <h1>Roles List</h1>
+  </div>
+
+<button type="button" class="btn btn-primary mb-3 ms-3 mt-2" data-bs-toggle="modal"
+data-bs-target="#exampleModal"  (click)="AddNew()">
+<i class="fa-solid fa-plus"></i> Add New
+</button>
+
+<!-- Search -->
+<app-search style="display: flex;justify-content: flex-end;padding: 10px;" (searchChanged)="filterRoles($event)"></app-search>
+
+<!-- Table -->
+<div class="table-container">
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" (click)="sortById()" style="cursor: pointer;">
+                RID
+
+            </th>
+            <th scope="col">Role Name</th>
+            <th scope="col">Creat By</th>
+            <th scope="col">Creat Date</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let role of filteredRole | paginate: { itemsPerPage: 10, currentPage: page }">
+            <th scope="row">{{role.roleId}}</th>
+            <td>{{role.roleName}}</td>
+            <td>{{role.createBy}}</td>
+            <td>{{ role.createDate | date: 'medium' }}</td>
+            <td>
+                <button type="button" class="btn btn-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    (click)="ViewRole(role.roleId,'E')">Edit</button>
+                <button type="button"
+                    class="btn btn-danger ms-2"data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    (click)="ViewRole(role.roleId,'D')">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<!-- If no product when search -->
+<div *ngIf="searchText?.trim && filteredRole.length === 0" class="no-item">
+  <h5>No data found </h5>
+</div>
+
+<!-- Pagination -->
+<div class="mt-8 py-5 d-flex justify-content-center items-center">
+  <pagination-controls
+    (pageChange)="page = $event"></pagination-controls>
+</div>
+ 
+<!-- Modal CRUD-->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal
+                    title</h1>
+                <button type="button" id="close" class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3" hidden>
+                    <input type="text" class="form-control"
+                        id="hiddenInput" [(ngModel)]="roleId"
+                        placeholder="CID">
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                        [(ngModel)]="roleName"
+                        id="name"
+                        placeholder="Category Name">
+                    <label for="name">Role Name</label>
+                </div>
+                <div class="form-floating mb-3" hidden>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="createBy"
+                        id="createBy">
+                    <label for="createBy">Create By</label>
+                </div>
+                <div class="form-floating mb-3" hidden>
+                    <input type="date" class="form-control"
+                        [(ngModel)]="createDate"
+                        id="createDate">
+                    <label for="createDate">Create Date</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Close</button>
+                <button type="button"
+                    class="btn btn-primary" *ngIf="btnSave"
+                    (click)="AddRole()">Add</button>
+                <button type="button"
+                    class="btn btn-warning" *ngIf="btnEdit"
+                    (click)="editRole()">Edit</button>
+                <button type="button"
+                    class="btn btn-danger" *ngIf="btnDelete" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Delete pop up information -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Information</h1>
+        <button type="button" id="close-delete-popup" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{this.roleName}}</strong>
+        ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning"
+          data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger"
+        (click)="DeleteRole(roleId)">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

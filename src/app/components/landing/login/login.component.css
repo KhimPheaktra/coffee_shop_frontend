@@ -1,0 +1,29 @@
+.form-login {
+  margin: 0 auto;
+  width: 25rem;
+  margin-top: 10%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(9, 145, 237, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+
+  .login-header {
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+    .logo {
+      width: 8rem;
+      height: 6rem;
+      object-fit: contain;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+}

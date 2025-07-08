@@ -1,0 +1,12 @@
+<!-- 
+<div class="container-input">
+    <input class="input" type="search" [(ngModel)]="searchText" 
+    name="searchText" (ngModelChange)="onSearch()"(keydown.enter)="onSearch()"placeholder="Search" aria-label="Search" />
+    <i class="fa-solid fa-magnifying-glass"></i></div> -->
+
+
+    <div class="container-input">
+        <input class="input" type="search"[(ngModel)]="searchText"(keydown.enter)="onSearch()"placeholder="Search"aria-label="Search"/>
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <button class="search-button"(click)="onSearch()">Search</button>
+      </div>

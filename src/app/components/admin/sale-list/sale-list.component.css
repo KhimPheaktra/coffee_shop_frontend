@@ -1,0 +1,70 @@
+
+.btn-clock-out{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+
+
+}
+.clock-out{
+    width: 5rem;
+    height: 3rem;
+    background: blue;
+    color: #fff;
+}
+.table-container {
+    max-height: auto; 
+    overflow-y: auto; 
+    overflow-x: auto; 
+    border: 1px solid #ddd; 
+}
+
+/* Optional: Make sure table has a fixed width to enable horizontal scroll */
+.table {
+    width: 100%; 
+    border-collapse: collapse;
+}
+
+
+.table th, .table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+.row-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 0 auto;
+    padding: 15px;
+    max-width: 100%;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .input-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .input-group input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Make it responsive */
+  @media (max-width: 600px) {
+    .row-container {
+      flex-direction: column;
+    }
+  }

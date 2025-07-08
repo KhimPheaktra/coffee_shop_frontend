@@ -1,0 +1,92 @@
+
+
+<div class="wrapper">
+  <div class="sidebar" [class.expanded]="!isSidebarCollapsed">
+    <div class="sidebar-content">
+      <!-- Header with toggle button -->
+      <div class="sidebar-header">
+        <button class="toggle-btn" (click)="toggleSidebar()">
+          <i class="fa-solid" [class.fa-xmark]="!isSidebarCollapsed"
+            [class.fa-bars]="isSidebarCollapsed"></i>
+        </button>
+        <span class="menu-text" [class.d-none]="isSidebarCollapsed">MENU</span>
+      </div>
+
+      <hr>
+
+      <!-- Navigation Menu -->
+      <ul class="nav-menu">
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link"
+            [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa-solid fa-house"></i>
+            <span [class.d-none]="isSidebarCollapsed">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="saleReport" routerLinkActive="active" class="nav-link">
+            <i class="fa-solid fa-file-pen"></i>
+            <span [class.d-none]="isSidebarCollapsed">Sale Report</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="invoice" routerLinkActive="active" class="nav-link">
+            <i class="fa-solid fa-receipt"></i>
+            <span [class.d-none]="isSidebarCollapsed">Invoice</span>
+          </a>
+        </li>
+        <li>
+          <a (click)="toggleDropdown()" class="nav-link">
+            <i class="fa-solid fa-id-card"></i>
+            <span [class.d-none]="isSidebarCollapsed">Manage Users
+              <i class="fa-solid"
+                [ngClass]="{'fa-chevron-right': !isDropdownOpen, 'fa-chevron-down': isDropdownOpen}"></i></span>
+          </a>
+          <ul *ngIf="isDropdownOpen" class="dropdown-list" @dropdownAnimation>
+            <li>
+              <a routerLink="user" routerLinkActive="active"
+                class="nav-link">
+                <i class="fa-solid fa-user-group"></i>
+                <span [class.d-none]="isSidebarCollapsed">User List</span></a>
+            </li>
+            <li>
+              <a routerLink="role" routerLinkActive="active"
+                class="nav-link">
+                <i class="fa-solid fa-user-gear"></i>
+                <span [class.d-none]="isSidebarCollapsed">Role List</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a routerLink="exchange" routerLinkActive="active" class="nav-link">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+            <span [class.d-none]="isSidebarCollapsed">Exchange Rate</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/product" routerLinkActive="active" class="nav-link">
+            <i class="fa-solid fa-box-open"></i>
+            <span [class.d-none]="isSidebarCollapsed">Products</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/category" routerLinkActive="active" class="nav-link">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span [class.d-none]="isSidebarCollapsed">Categories</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Overlay for mobile only -->
+  <div class="sidebar-overlay"
+    [class.active]="!isSidebarCollapsed && isMobile"
+    (click)="toggleSidebar()"></div>
+</div>
+
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" [class.rotate-180]="!isSidebarCollapsed" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg> -->

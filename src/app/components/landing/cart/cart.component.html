@@ -1,0 +1,101 @@
+
+
+<div class="order-container">
+  <div class="list-group">
+    <h2>Order</h2>
+    <div class="table-container">
+      <table class="table" style="text-align: center;">
+  
+        <thead>
+          <tr>
+            <!-- <th>Image</th> -->
+            <th>Name</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody style="text-align: center;vertical-align: middle;">
+          <tr *ngFor="let item of cartService.getItems(); trackBy: trackById">
+
+            <!-- <td><img [src]="item.product_image" alt="Product Image" width="50"
+                height="50" />
+              </td> -->
+            <td style="width: 20px;">{{ item.product_name }}</td>
+            <td>{{ item.price | currency }}</td>
+            <td style="padding: 3px;"> 
+              <button class="minus btn btn-outline-danger btn-sm"  style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .4rem; --bs-btn-font-size: .85rem;"
+              (click)="cartService.decreaseQty(item)">-</button>
+           
+                <input type="text" 
+                [(ngModel)]="item.qty" 
+                style="width: 40px; text-align: center; font-size: .85rem; padding: 5px;" 
+                (change)="cartService.updateQty(item, item.qty)"/>
+
+                <button class="plus btn btn-outline-primary btn-sm"  style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .3rem; --bs-btn-font-size: .85rem;"
+                (click)="cartService.increaseQty(item)">+</button>
+           </td>
+            <td>{{ item.totalPrice | currency }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm"
+                (click)="removeFromCart(item)">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <!-- <td colspan="3"><strong>Riel:</strong> <br/> 
+              {{ (cartService.getTotalPrice() * 4100) | number: '1.0-0' }}R
+              </td>
+            <td colspan="2"><strong>Total Amount:</strong> <br/> 
+              {{cartService.getTotalPrice() | currency }}
+            </td> -->  
+            <td colspan="2">
+              <strong>Riel:</strong> <br />
+              {{ (cartService.getTotalPrice() * exchangeRate) | number: '1.0-0' }} R
+            </td>
+            <td colspan="2">
+              <strong>Total Amount:</strong> <br />
+              {{ cartService.getTotalPrice() | currency:'USD' }}
+            </td>
+            
+            <td>    
+              <button *ngIf="cartService.getItems().length > 0"
+              class="btn btn-primary order-btn" (click)="Order()">
+              Order
+            </button>
+          </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+<div class="modal fade" id="amountModal" tabindex="-1" aria-labelledby="amountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="amountModalLabel">Missing Amount</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Please enter a valid amount before placing an order.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+ -->
