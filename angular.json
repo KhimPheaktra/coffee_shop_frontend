@@ -20,11 +20,6 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "allowedCommonJsDependencies": [
-              "core-js",
-              "canvg",
-              "raf"
-            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
