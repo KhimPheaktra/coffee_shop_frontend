@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiEndPoint: 'http://localhost:2000/',
+  apiEndPoint: 'http://192.168.56.1:2000/',
   featureFlag: false,
 };
 
