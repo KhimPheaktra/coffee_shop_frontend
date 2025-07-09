@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, pipe, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
-import { environment } from '../components/environments/environment';
+
 import { User } from '../components/admin/user/user.component';
+import { environment } from '../components/environments/environment.prod';
 export interface RefreshTokenResponse {
   jwtToken: string;
   refreshToken: string;

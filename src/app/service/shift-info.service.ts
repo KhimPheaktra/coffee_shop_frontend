@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../components/environments/environment';
+import { environment } from '../components/environments/environment.prod';
 import { Observable } from 'rxjs';
 import { saleReport, saleReportResponse } from '../components/admin/sale-report/sale-report.component';
 
