@@ -47,12 +47,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (environment.production) {
-
-    console.log = () => {};
-    console.warn = () => {};
-    console.error = () => {};
-  }
-
+      console.log = () => {};
+      console.warn = () => {};
+      console.error = () => {};
+    }
    // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
@@ -84,10 +82,9 @@ export class AppComponent implements OnInit {
       this.isLoading = false;
     },
     error: (error) => {
-       catchError(error => {
-         return throwError(() => new Error());
-       });
-    
+      catchError(err => {
+        return throwError(() => new Error('Failed to get user'));
+      });
       this.handleLogout();
       this.isLoading = false;
     },
@@ -121,7 +118,6 @@ private isTokenExpired(token: string): boolean {
     // } else {
     //   this.isLoging = true;
     // }
-    
   }
   
 }
