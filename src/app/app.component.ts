@@ -45,14 +45,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   // Subscribe to login status observable
+    // Suppress console logs in production
+  if (environment.production) {
+    console.log = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+  }
+
+  // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
     this.role = status ? this.accountService.decodeToken()?.Role || '' : '';
     this.cdr.detectChanges();
   });
 
-  // Try to get token from memory
   const currentToken = this.accountService.getToken();
 
   if (currentToken && !this.isTokenExpired(currentToken)) {
@@ -64,28 +70,33 @@ export class AppComponent implements OnInit {
   }
 
   if (this.hasRefreshTokenCookie()) {
-  // No valid token in memory => call refresh token endpoint to get new JWT
-  this.accountService.refreshToken().subscribe({
-    next: (res) => {
-      if (res?.jwtToken) {
-        this.accountService.setToken(res.jwtToken);
-        this.accountService.setIsLogin(true);
-        this.role = this.accountService.decodeToken()?.Role || '';
-      } else {
-        this.handleLogout();
-      }
-      this.isLoading = false;
-    },
-    error: (error) => {
-      if (!environment.production || (error.status !== 400 && error.status !== 401)) {
+    // Try refresh token API call
+    this.accountService.refreshToken().subscribe({
+      next: (res) => {
+        if (res?.jwtToken) {
+          this.accountService.setToken(res.jwtToken);
+          this.accountService.setIsLogin(true);
+          this.role = this.accountService.decodeToken()?.Role || '';
+        } else {
+          this.handleLogout();
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        if (!environment.production || (error.status !== 400 && error.status !== 401)) {
           console.error('Token refresh failed:', error.status || 'Unknown error');
         }
-      this.handleLogout();
-      this.isLoading = false;
-    },
-  });
+        this.handleLogout();
+        this.isLoading = false;
+      }
+    });
+  } else {
+    // No valid token and no refresh token cookie → logout and stop loading
+    this.handleLogout();
+    this.isLoading = false;
   }
 }
+
 private getCookie(name: string): string | null {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
