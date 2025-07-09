@@ -39,30 +39,23 @@ export class AppComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private cdr: ChangeDetectorRef,  // Add this
+    private cdr: ChangeDetectorRef,
     private ngZone: NgZone) {
     // console.log('API URL:', this.apiurl);
   }
 
   ngOnInit(): void {
-    // Suppress console logs in production
-  if (environment.production) {
-    console.log = () => {};
-    console.warn = () => {};
-    console.error = () => {};
-  }
-
-  // Subscribe to login status observable
+   // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
     this.role = status ? this.accountService.decodeToken()?.Role || '' : '';
     this.cdr.detectChanges();
   });
 
-  const currentToken = this.accountService.getToken();
+  // Try to get token from memory
+    const currentToken = this.accountService.getToken();
 
   if (currentToken && !this.isTokenExpired(currentToken)) {
-    // Token in memory and valid, just set login and role
     this.accountService.setIsLogin(true);
     this.role = this.accountService.decodeToken()?.Role || '';
     this.isLoading = false;
@@ -70,7 +63,6 @@ export class AppComponent implements OnInit {
   }
 
   if (this.hasRefreshTokenCookie()) {
-    // Try refresh token API call
     this.accountService.refreshToken().subscribe({
       next: (res) => {
         if (res?.jwtToken) {
@@ -83,29 +75,15 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        if (!environment.production || (error.status !== 400 && error.status !== 401)) {
-          console.error('Token refresh failed:', error.status || 'Unknown error');
-        }
+        console.error('Token refresh failed on app init:', error);
         this.handleLogout();
         this.isLoading = false;
-      }
+      },
     });
   } else {
-    // No valid token and no refresh token cookie → logout and stop loading
     this.handleLogout();
     this.isLoading = false;
   }
-}
-
-private getCookie(name: string): string | null {
-  const matches = document.cookie.match(
-    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
-  );
-  return matches ? decodeURIComponent(matches[1]) : null;
-}
-
-private hasRefreshTokenCookie(): boolean {
-  return this.getCookie('refreshToken') !== null;
 }
 
 private handleLogout() {
@@ -136,5 +114,15 @@ private isTokenExpired(token: string): boolean {
     //   this.isLoging = true;
     // }
   }
-  
+
+  private getCookie(name: string): string | null {
+  const matches = document.cookie.match(
+    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+  );
+  return matches ? decodeURIComponent(matches[1]) : null;
+}
+
+private hasRefreshTokenCookie(): boolean {
+  return this.getCookie('refreshToken') !== null;
+}
 }
