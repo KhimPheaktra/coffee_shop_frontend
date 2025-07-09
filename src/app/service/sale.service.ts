@@ -13,7 +13,7 @@ export class SaleService {
     withCredentials: true,
     }).pipe(
         catchError(err => {
-          return throwError(() => new Error('Session expired. Please log in again.'));
+          return throwError(() => new Error('Failed to get sale'));
         }));
   }
   addSale(data: any) {
@@ -23,7 +23,7 @@ export class SaleService {
       withCredentials: true
     }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to add sale'));
     }));
   }
 }

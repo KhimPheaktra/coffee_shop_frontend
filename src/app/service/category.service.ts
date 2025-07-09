@@ -14,7 +14,7 @@ export class CategoryService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Get category failed'));
     }));
   }
   getCategoryById(data: any) {
@@ -24,7 +24,7 @@ export class CategoryService {
       withCredentials: true
     }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Get category failed'));
     }));
   }
   addCategory(data: any) {
@@ -32,7 +32,7 @@ export class CategoryService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to add category'));
     }));
   }
   editCategory(data: any) {
@@ -40,7 +40,7 @@ export class CategoryService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to update category'));
     }));
   }
   deleteCategory(data: any) {
@@ -51,7 +51,7 @@ export class CategoryService {
       withCredentials: true
     }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to delete category'));
     }));
   }
 }

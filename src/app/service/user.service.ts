@@ -15,7 +15,7 @@ export class UserService {
     withCredentials: true
   }).pipe(
       catchError(err => {
-        return throwError(() => new Error('Session expired. Please log in again.'));
+        return throwError(() => new Error('Failed to get user'));
       }));
   }
   getUserById(data: any): Observable<UserResponse> {
@@ -23,7 +23,7 @@ export class UserService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get user'));
     }));
   }
   addUser(data: any): Observable<UserResponse> {
@@ -31,7 +31,7 @@ export class UserService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to add user'));
     }));
   }
   editUser(data: any): Observable<UserResponse> {
@@ -39,7 +39,7 @@ export class UserService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to update user'));
     }));
   }
   deleteUser(data: any): Observable<UserResponse>  {
@@ -47,7 +47,7 @@ export class UserService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to delete user'));
     }));
   }
 

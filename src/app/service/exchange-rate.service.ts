@@ -16,7 +16,7 @@ export class ExchangeRateService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get exchange'));
     }));
   }
   getExchangeRateById(data: any) {
@@ -26,9 +26,21 @@ export class ExchangeRateService {
       withCredentials: true
     }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get exchange'));
     }));
   }
+  
+  addExchangeRate(data: any) {
+    return this.http.post(
+      environment.apiEndPoint + 'api/ExchangeRate/add-exchange-rate',
+      data, {
+    withCredentials: true
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Failed to add exchange'));
+    }));
+  }
+
   editExchangeRate(data: any) {
     return this.http.post(
       environment.apiEndPoint + 'api/ExchangeRate/edit-exchange-rate',
@@ -36,7 +48,7 @@ export class ExchangeRateService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to udpate exchange'));
     }));
   }
   deleteExchnageRate(data: any) {
@@ -46,7 +58,7 @@ export class ExchangeRateService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to delete exchange'));
     }));
   }
 }

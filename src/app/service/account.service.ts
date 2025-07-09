@@ -43,7 +43,7 @@ export class AccountService {
       observe: 'response',withCredentials: true
     }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Login failed'));
     }));
   }
 
@@ -102,7 +102,7 @@ export class AccountService {
     return this.http.post(environment.apiEndPoint + 'api/GetToken/logout', { userId })
     .pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Logout failed'));
     }));
   }
 

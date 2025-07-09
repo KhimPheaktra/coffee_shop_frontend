@@ -126,6 +126,7 @@ visibleCRUDButton(evName: string) {
       }
     });
   }
+
   SaveExchangeRate(){
     let data = {
       exchangrateId: this.exchangrateId,
@@ -134,7 +135,7 @@ visibleCRUDButton(evName: string) {
       rate: this.rate,
       effectiveDate: new Date().toISOString(), 
     }
-    this.exchangeRateService.editExchangeRate(data).subscribe((res: any) => {
+    this.exchangeRateService.addExchangeRate(data).subscribe((res: any) => {
       if(res.status === "Succeed"){
        this.GetExchangeRate();
        this.resetForm();

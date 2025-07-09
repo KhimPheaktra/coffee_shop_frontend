@@ -14,7 +14,7 @@ export class RoleService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get role'));
     }));
   }
   getRoleById(data: any){
@@ -22,7 +22,7 @@ export class RoleService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get role'));
     }));
   }
   addRole(data: any){
@@ -30,7 +30,7 @@ export class RoleService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to add role'));
     }));
   }
   editRole(data: any){
@@ -38,7 +38,7 @@ export class RoleService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to update role'));
     }));
   }
   deleteRole(data: any){
@@ -46,7 +46,7 @@ export class RoleService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to delete role'));
     }));
   }
 }

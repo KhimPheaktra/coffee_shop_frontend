@@ -15,7 +15,7 @@ export class ProductService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get product'));
     }));
   }
   getProductById(data: any) {
@@ -23,7 +23,7 @@ export class ProductService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get product'));
     }));
   }
   addProduct(data: any) {
@@ -31,7 +31,7 @@ export class ProductService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to add product'));
     }));
   }
   editProduct(data: any) {
@@ -39,14 +39,14 @@ export class ProductService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to update product'));
     }));
   }
   deleteProduct(data: any) {return this.http.post(environment.apiEndPoint + 'api/delete-product',data, {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to delete product'));
     }));
 }
 }

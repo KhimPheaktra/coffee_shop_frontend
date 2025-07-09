@@ -16,7 +16,7 @@ export class ShiftInfoService {
     withCredentials: true
   }).pipe(
       catchError(err => {
-        return throwError(() => new Error('Session expired. Please log in again.'));
+        return throwError(() => new Error('Failed to get report'));
       }));
   }
   startWork(data: any): Observable<saleReportResponse> {
@@ -24,7 +24,7 @@ export class ShiftInfoService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to clock in'));
     }));
   }
   clockOut(data: any): Observable<saleReportResponse> {
@@ -32,7 +32,7 @@ export class ShiftInfoService {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to clock out'));
     }));
   }
 acctiveShift() {
@@ -40,7 +40,7 @@ acctiveShift() {
     withCredentials: true
   }).pipe(
     catchError(err => {
-      return throwError(() => new Error('Session expired. Please log in again.'));
+      return throwError(() => new Error('Failed to get active shift'));
     }));
 }
 
