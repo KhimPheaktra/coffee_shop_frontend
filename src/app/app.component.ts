@@ -46,12 +46,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (environment.production) {
-      console.log = () => {};
-      console.warn = () => {};
-      console.error = () => {};
-    }
-   // Subscribe to login status observable
+     if (environment.production) {
+    console.log = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+  }
+
+  // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
     this.role = status ? this.accountService.decodeToken()?.Role || '' : '';
@@ -69,26 +70,51 @@ export class AppComponent implements OnInit {
     return;
   }
 
-  // No valid token in memory => call refresh token endpoint to get new JWT
-  this.accountService.refreshToken().subscribe({
-    next: (res) => {
-      if (res?.jwtToken) {
-        this.accountService.setToken(res.jwtToken);
-        this.accountService.setIsLogin(true);
-        this.role = this.accountService.decodeToken()?.Role || '';
-      } else {
+  // Check if refresh token exists in cookie before calling API
+  if (this.hasRefreshTokenCookie()) {
+    // Only call refresh token if we have a refresh token cookie
+    this.accountService.refreshToken().subscribe({
+      next: (res) => {
+        if (res?.jwtToken) {
+          this.accountService.setToken(res.jwtToken);
+          this.accountService.setIsLogin(true);
+          this.role = this.accountService.decodeToken()?.Role || '';
+        } else {
+          this.handleLogout();
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        // Only log in development or if it's not a 400/401 error
+        if (!environment.production || (error.status !== 400 && error.status !== 401)) {
+          console.error('Token refresh failed:', error.status || 'Unknown error');
+        }
+        
         this.handleLogout();
-      }
-      this.isLoading = false;
-    },
-    error: (error) => {
-      catchError(err => {
-        return throwError(() => new Error('Failed to get user'));
-      });
-      this.handleLogout();
-      this.isLoading = false;
-    },
-  });
+        this.isLoading = false;
+      },
+    });
+  } else {
+    // No refresh token cookie available, user is not logged in
+    this.isLoading = false;
+    this.handleLogout();
+  }
+}
+
+private hasRefreshTokenCookie(): boolean {
+  // Check if refresh token cookie exists
+  // Replace 'refreshToken' with your actual cookie name
+  const cookieName = 'refreshToken'; // or whatever your cookie name is
+  return this.getCookie(cookieName) !== null;
+}
+
+private getCookie(name: string): string | null {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() || null;
+  }
+  return null;
 }
 
 private handleLogout() {
@@ -96,9 +122,19 @@ private handleLogout() {
   this.accountService.setIsLogin(false);
   this.role = '';
   sessionStorage.clear();
+  
+  // Clear refresh token cookie
+  this.clearRefreshTokenCookie();
+  
   if (!this.router.url.includes('/login')) {
     this.router.navigate(['/login']);
   }
+}
+
+private clearRefreshTokenCookie() {
+  // Replace 'refreshToken' with your actual cookie name
+  const cookieName = 'refreshToken';
+  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
 private isTokenExpired(token: string): boolean {
