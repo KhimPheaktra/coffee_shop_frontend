@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
     return;
   }
 
-  if (this.hasRefreshTokenCookie()) {
+
     this.accountService.refreshToken().subscribe({
       next: (res) => {
         if (res?.jwtToken) {
@@ -80,10 +80,6 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       },
     });
-  } else {
-    this.handleLogout();
-    this.isLoading = false;
-  }
 }
 
 private handleLogout() {
@@ -115,14 +111,4 @@ private isTokenExpired(token: string): boolean {
     // }
   }
 
-  private getCookie(name: string): string | null {
-  const matches = document.cookie.match(
-    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
-  );
-  return matches ? decodeURIComponent(matches[1]) : null;
-}
-
-private hasRefreshTokenCookie(): boolean {
-  return this.getCookie('refreshToken') !== null;
-}
 }
