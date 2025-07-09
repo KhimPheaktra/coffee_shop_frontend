@@ -7,11 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { SidebarComponent } from './components/admin/sidebar/sidebar.component';
 import { BodyComponent } from './components/body/body.component';
-import { environment } from './components/environments/environment';
+import { environment } from './components/environments/environment.prod';
 import { LoginComponent } from './components/landing/login/login.component';
 import { AccountService } from './service/account.service';
 import { ClockInSaleInfoComponent } from "./components/features/clock-in-sale-info/clock-in-sale-info.component";
-import { catchError, throwError } from 'rxjs';
 
 
 @Component({
@@ -40,19 +39,13 @@ export class AppComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private cdr: ChangeDetectorRef, 
+    private cdr: ChangeDetectorRef,  // Add this
     private ngZone: NgZone) {
     // console.log('API URL:', this.apiurl);
   }
 
   ngOnInit(): void {
-     if (environment.production) {
-    console.log = () => {};
-    console.warn = () => {};
-    console.error = () => {};
-  }
-
-  // Subscribe to login status observable
+   // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
     this.role = status ? this.accountService.decodeToken()?.Role || '' : '';
@@ -61,7 +54,9 @@ export class AppComponent implements OnInit {
 
   // Try to get token from memory
   const currentToken = this.accountService.getToken();
+
   if (currentToken && !this.isTokenExpired(currentToken)) {
+    // Token in memory and valid, just set login and role
     this.accountService.setIsLogin(true);
     this.role = this.accountService.decodeToken()?.Role || '';
     this.isLoading = false;
@@ -69,44 +64,37 @@ export class AppComponent implements OnInit {
   }
 
   if (this.hasRefreshTokenCookie()) {
-    this.accountService.refreshToken().subscribe({
-      next: (res) => {
-        if (res?.jwtToken) {
-          this.accountService.setToken(res.jwtToken);
-          this.accountService.setIsLogin(true);
-          this.role = this.accountService.decodeToken()?.Role || '';
-        } else {
-          this.handleLogout();
-        }
-        this.isLoading = false;
-      },
-      error: (error) => {
-        if (!environment.production || (error.status !== 400 && error.status !== 401)) {
+  // No valid token in memory => call refresh token endpoint to get new JWT
+  this.accountService.refreshToken().subscribe({
+    next: (res) => {
+      if (res?.jwtToken) {
+        this.accountService.setToken(res.jwtToken);
+        this.accountService.setIsLogin(true);
+        this.role = this.accountService.decodeToken()?.Role || '';
+      } else {
+        this.handleLogout();
+      }
+      this.isLoading = false;
+    },
+    error: (error) => {
+      if (!environment.production || (error.status !== 400 && error.status !== 401)) {
           console.error('Token refresh failed:', error.status || 'Unknown error');
         }
-        
-        this.handleLogout();
-        this.isLoading = false;
-      },
-    });
-  } else {
-    this.isLoading = false;
-    this.handleLogout();
+      this.handleLogout();
+      this.isLoading = false;
+    },
+  });
   }
+}
+private getCookie(name: string): string | null {
+  const matches = document.cookie.match(
+    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+  );
+  return matches ? decodeURIComponent(matches[1]) : null;
 }
 
 private hasRefreshTokenCookie(): boolean {
-  const cookieName = 'refreshToken';
-  return this.getCookie(cookieName) !== null;
-}
-
-private getCookie(name: string): string | null {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop()?.split(';').shift() || null;
-  }
-  return null;
+  return this.getCookie('refreshToken') !== null;
 }
 
 private handleLogout() {
@@ -118,8 +106,6 @@ private handleLogout() {
     this.router.navigate(['/login']);
   }
 }
-
-
 
 private isTokenExpired(token: string): boolean {
   try {
