@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private cdr: ChangeDetectorRef,  // Add this
+    private cdr: ChangeDetectorRef, 
     private ngZone: NgZone) {
     // console.log('API URL:', this.apiurl);
   }
@@ -61,18 +61,14 @@ export class AppComponent implements OnInit {
 
   // Try to get token from memory
   const currentToken = this.accountService.getToken();
-
   if (currentToken && !this.isTokenExpired(currentToken)) {
-    // Token in memory and valid, just set login and role
     this.accountService.setIsLogin(true);
     this.role = this.accountService.decodeToken()?.Role || '';
     this.isLoading = false;
     return;
   }
 
-  // Check if refresh token exists in cookie before calling API
   if (this.hasRefreshTokenCookie()) {
-    // Only call refresh token if we have a refresh token cookie
     this.accountService.refreshToken().subscribe({
       next: (res) => {
         if (res?.jwtToken) {
@@ -85,7 +81,6 @@ export class AppComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        // Only log in development or if it's not a 400/401 error
         if (!environment.production || (error.status !== 400 && error.status !== 401)) {
           console.error('Token refresh failed:', error.status || 'Unknown error');
         }
@@ -95,16 +90,13 @@ export class AppComponent implements OnInit {
       },
     });
   } else {
-    // No refresh token cookie available, user is not logged in
     this.isLoading = false;
     this.handleLogout();
   }
 }
 
 private hasRefreshTokenCookie(): boolean {
-  // Check if refresh token cookie exists
-  // Replace 'refreshToken' with your actual cookie name
-  const cookieName = 'refreshToken'; // or whatever your cookie name is
+  const cookieName = 'refreshToken';
   return this.getCookie(cookieName) !== null;
 }
 
@@ -122,20 +114,12 @@ private handleLogout() {
   this.accountService.setIsLogin(false);
   this.role = '';
   sessionStorage.clear();
-  
-  // Clear refresh token cookie
-  this.clearRefreshTokenCookie();
-  
   if (!this.router.url.includes('/login')) {
     this.router.navigate(['/login']);
   }
 }
 
-private clearRefreshTokenCookie() {
-  // Replace 'refreshToken' with your actual cookie name
-  const cookieName = 'refreshToken';
-  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-}
+
 
 private isTokenExpired(token: string): boolean {
   try {
