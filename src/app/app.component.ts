@@ -51,42 +51,47 @@ export class AppComponent implements OnInit {
     console.error = () => {};
   }
 
-   // Subscribe to login status observable
+  // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
     this.role = status ? this.accountService.decodeToken()?.Role || '' : '';
     this.cdr.detectChanges();
   });
 
-  // Try to get token from memory
   const currentToken = this.accountService.getToken();
 
   if (currentToken && !this.isTokenExpired(currentToken)) {
-    // Token in memory and valid, just set login and role
     this.accountService.setIsLogin(true);
     this.role = this.accountService.decodeToken()?.Role || '';
     this.isLoading = false;
     return;
   }
 
-  // No valid token in memory => call refresh token endpoint to get new JWT
-  this.accountService.refreshToken().subscribe({
-    next: (res) => {
-      if (res?.jwtToken) {
-        this.accountService.setToken(res.jwtToken);
-        this.accountService.setIsLogin(true);
-        this.role = this.accountService.decodeToken()?.Role || '';
-      } else {
+  // ✅ Check if refresh token exists before trying to refresh
+  const refreshToken = this.accountService.refreshToken?.();
+  if (refreshToken) {
+    this.accountService.refreshToken().subscribe({
+      next: (res) => {
+        if (res?.jwtToken) {
+          this.accountService.setToken(res.jwtToken);
+          this.accountService.setIsLogin(true);
+          this.role = this.accountService.decodeToken()?.Role || '';
+        } else {
+          this.handleLogout();
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Token refresh failed on app init:', error);
         this.handleLogout();
-      }
-      this.isLoading = false;
-    },
-    error: (error) => {
-      console.error('Token refresh failed on app init:', error);
-      this.handleLogout();
-      this.isLoading = false;
-    },
-  });
+        this.isLoading = false;
+      },
+    });
+  } else {
+    // No refresh token available — logout or stay logged out
+    this.handleLogout();
+    this.isLoading = false;
+  }
 }
 
 private handleLogout() {
