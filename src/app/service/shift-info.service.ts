@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../components/environments/environment.prod';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { saleReport, saleReportResponse } from '../components/admin/sale-report/sale-report.component';
 
 @Injectable({
@@ -14,22 +14,34 @@ export class ShiftInfoService {
   getReport(): Observable<saleReportResponse> {
     return this.http.get<saleReportResponse>(environment.apiEndPoint+ 'api/UserWorkInfo/get-report-sale', {
     withCredentials: true
-  })
+  }).pipe(
+      catchError(err => {
+        return throwError(() => new Error('Session expired. Please log in again.'));
+      }));
   }
   startWork(data: any): Observable<saleReportResponse> {
     return this.http.post<saleReportResponse>(environment.apiEndPoint+ 'api/UserWorkInfo/start-work',data, {
     withCredentials: true
-  })
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
   clockOut(data: any): Observable<saleReportResponse> {
     return this.http.post<saleReportResponse>(environment.apiEndPoint + 'api/UserWorkInfo/clockOut',data, {
     withCredentials: true
-  })
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
 acctiveShift() {
   return this.http.get(environment.apiEndPoint + 'api/UserWorkInfo/active-session', {
     withCredentials: true
-  });
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
 }
 
 }

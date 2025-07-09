@@ -46,7 +46,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if (environment.production) {
-    // Disable all console logs
     console.log = () => {};
     console.warn = () => {};
     console.error = () => {};

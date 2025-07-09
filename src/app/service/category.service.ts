@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../components/environments/environment.prod';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,24 +12,36 @@ export class CategoryService {
   getCategory() {
     return this.http.get(environment.apiEndPoint + 'api/Category', {
     withCredentials: true
-  });
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
   getCategoryById(data: any) {
     return this.http.post(
       environment.apiEndPoint + 'api/get-category-by-id',
       data, {
       withCredentials: true
-    });
+    }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
   addCategory(data: any) {
     return this.http.post(environment.apiEndPoint + 'api/add-category', data, {
     withCredentials: true
-  });
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
   editCategory(data: any) {
     return this.http.post(environment.apiEndPoint + 'api/edit-category', data, {
     withCredentials: true
-  });
+  }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
   deleteCategory(data: any) {
     return this.http.post(
@@ -36,6 +49,9 @@ export class CategoryService {
       data,
        {
       withCredentials: true
-    });
+    }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
 }

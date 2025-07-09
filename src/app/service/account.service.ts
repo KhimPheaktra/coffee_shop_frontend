@@ -41,7 +41,10 @@ export class AccountService {
   login(request: any): Observable<HttpResponse<any>> {
     return this.http.post(environment.apiEndPoint + 'api/GetToken', request, {
       observe: 'response',withCredentials: true
-    });
+    }).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
 
 
@@ -60,7 +63,10 @@ export class AccountService {
       environment.apiEndPoint + 'api/GetToken/refresh-token', 
       {}, 
       { withCredentials: true } 
-    );
+    ).pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }))
   }
   
 //  refreshToken(): Observable<any> {
@@ -93,7 +99,11 @@ export class AccountService {
 
   logout(userId: number): Observable<any>{
     sessionStorage.clear();
-    return this.http.post(environment.apiEndPoint + 'api/GetToken/logout', { userId });
+    return this.http.post(environment.apiEndPoint + 'api/GetToken/logout', { userId })
+    .pipe(
+    catchError(err => {
+      return throwError(() => new Error('Session expired. Please log in again.'));
+    }));
   }
 
   // Utility method to check if user is logged in
