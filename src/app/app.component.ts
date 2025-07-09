@@ -45,6 +45,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (environment.production) {
+    // Disable all console logs
+    console.log = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+  }
+
    // Subscribe to login status observable
   this.accountService.isLoginStatus$.subscribe((status) => {
     this.isLoging = status;
@@ -110,6 +117,7 @@ private isTokenExpired(token: string): boolean {
     // } else {
     //   this.isLoging = true;
     // }
+    
   }
   
 }

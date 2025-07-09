@@ -28,6 +28,14 @@ import { AppService } from './app/service/app.service';
 
 import { AccountService } from './app/service/account.service';
 import { authInterceptor } from './app/components/core/auth/auth.interceptor';
+import { environment } from './app/components/environments/environment.prod';
+
+if (environment.production) {
+  // Disable all console logs
+  console.log = () => {};
+  console.warn = () => {};
+  console.error = () => {};
+}
 
 
 bootstrapApplication(AppComponent, {
@@ -47,6 +55,7 @@ bootstrapApplication(AppComponent, {
     ToastrModule,
     // AccountService,
   ],
+  
   
 }).catch((err) => console.error(err));
 
